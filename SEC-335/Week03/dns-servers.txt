@@ -1,0 +1,5 @@
+Nmap scan report for ns.shire.org (10.0.5.22)
+Host is up (0.00083s latency).
+
+PORT   STATE SERVICE
+53/tcp open  domain
