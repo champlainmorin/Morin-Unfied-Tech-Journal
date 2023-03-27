@@ -1,0 +1,4 @@
+# Nmap 7.93 scan initiated Mon Feb  6 18:35:04 2023 as: nmap -A --top-ports=100 -Pn -oG top100.txt 10.0.5.23
+Host: 10.0.5.23 ()	Status: Up
+Host: 10.0.5.23 ()	Ports: 22/open/tcp//ssh//OpenSSH 5.3 (protocol 2.0)/, 80/open/tcp//http//Apache httpd 2.2.15 ((CentOS))/	Ignored State: filtered (98)	OS: Linux 2.6.32 - 3.10|Linux 2.6.32 - 3.13|Linux 3.10|Linux 3.4 - 3.10	Seq Index: 260	IP ID Seq: All zeros
+# Nmap done at Mon Feb  6 18:35:15 2023 -- 1 IP address (1 host up) scanned in 11.96 seconds
