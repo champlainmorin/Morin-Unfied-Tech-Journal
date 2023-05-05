@@ -1,0 +1,18 @@
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-05-05 12:09 EDT
+Nmap scan report for 10.0.5.32
+Host is up (0.00071s latency).
+Not shown: 998 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 89246a7387617df81430861862bb066c (RSA)
+|   256 e6bde2725d3f037a6d5be77b5ccb7afa (ECDSA)
+|_  256 952e7217e037ecdd0af53c39a2ddb0bd (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+| http-title: 404 Not Found
+|_Requested resource was /auth/login
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.62 seconds
