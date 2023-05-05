@@ -1,0 +1,28 @@
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-05-05 01:42 EDT
+Stats: 0:00:07 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
+Service scan Timing: About 66.67% done; ETC: 01:43 (0:00:03 remaining)
+Nmap scan report for 10.0.5.250
+Host is up (0.00078s latency).
+Not shown: 997 closed tcp ports (conn-refused)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 953a68ca6a3f002f073ca51091983d22 (ECDSA)
+|_  256 bbf3f558b7386489b9a20c41516b5177 (ED25519)
+80/tcp   open  http    Apache httpd 2.4.52 ((Ubuntu))
+|_http-generator: WordPress 5.8
+|_http-title: Rivendell Community News &#8211; Middle Earth News with an Elv...
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+| http-cookie-flags: 
+|   /: 
+|     PHPSESSID: 
+|_      httponly flag not set
+2222/tcp open  ssh     OpenSSH 8.4p1 (protocol 2.0)
+| ssh-hostkey: 
+|   3072 1c742e1474ce59778a67490a9bb73186 (RSA)
+|   256 a2597858b7d2396f62ae4fe6af65f01b (ECDSA)
+|_  256 f51c68c6850496e76f78b7cb995fc0cb (ED25519)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 9.44 seconds
