@@ -1,0 +1,4 @@
+{
+    "vcenter_server" : "vcenter.morin.local",
+    "ESXI_Host" : "192.168.7.32"
+}
