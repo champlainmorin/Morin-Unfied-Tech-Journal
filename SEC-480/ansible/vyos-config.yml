@@ -1,0 +1,22 @@
+- name: vyos network confight
+  hosts: vyos
+  vars_prompt:
+  - name: password
+    prompt: Please enter the brand new vyos password
+    private: true
+  
+  tasks:
+  - name: set the password hash
+    ansible.builtin.set_fact:
+      password_hash: "{{ password | password_hash('sha512') }}"
+  - name: load vyos config from template
+    become: yes
+    ansible.builtin.template:
+      src: config.boot.j2
+      dest: /config/config.boot
+      mode: "0755"
+      owner: root
+      group: vyattacfg
+  - name: bounce and end
+    become: true
+    ansible.builtin.shell: nohup bash -c "/usr/bin/sleep 5 && /usr/sbin/shutdown -r now" &
