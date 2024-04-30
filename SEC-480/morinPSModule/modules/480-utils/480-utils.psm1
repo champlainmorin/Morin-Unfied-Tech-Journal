@@ -91,6 +91,37 @@ function Select-VM([string] $folder) {
 
 }
 
+
+function New-Network ([string] $networkName) {
+
+    Write-Host "Creating new network: $networkName"
+    Write-Host "Which VM host do you want to use?"
+
+    $VMHosts = Get-VMHost
+    $vmhost = index_picker -array $VMHosts
+    if (!$vmhost) {
+       Write-Host "Invalid ESXI host selection. Aborting..." -f Red
+       return $null
+    }
+
+    New-VirtualSwitch -Name $networkName -VMHost $vmhost -ErrorAction Stop
+    New-VirtualPortGroup -VirtualSwitch $networkName -Name $networkName -ErrorAction Stop
+
+}
+
+function Get-IP ([string] $VMName) {
+
+    $selected_vm = Get-VM -Name $VMName
+
+    $selected_MAC = Get-NetworkAdapter -VM $selected_vm
+    $selected_IP = $selected_vm.guest.ipaddress[0]
+
+    Write-Host $selected_MAC
+    Write-Host $selected_IP
+
+}
+
+
 function Write-LinkedClone() {
 
       # Write-Host (Get-Folder -type VM | Select-Object Name)
