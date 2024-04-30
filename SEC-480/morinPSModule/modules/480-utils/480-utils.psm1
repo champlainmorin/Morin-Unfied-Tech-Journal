@@ -113,11 +113,44 @@ function Get-IP ([string] $VMName) {
 
     $selected_vm = Get-VM -Name $VMName
 
-    $selected_MAC = Get-NetworkAdapter -VM $selected_vm
-    $selected_IP = $selected_vm.guest.ipaddress[0]
+    $selected_MAC = Get-NetworkAdapter -VM $selected_vm | select -ExpandProperty MacAddress
+    #$selected_IP = $selected_vm.Guest.IPAddress
+    Get-VM -Name $VMName | Select Name, powerstate, @{N="IP";E={@($_.Guest.IPAddress)}}
 
     Write-Host $selected_MAC
     Write-Host $selected_IP
+
+}
+
+function Start-Up ([string] $VMName) {
+
+    $selected_vm = Get-VM -Name $VMName
+
+    Start-VM -VM $selected_vm
+
+} 
+
+function Set-Network ([string] $VMName) {
+
+    Write-Host "Which adapter do you want to change?"
+    $selected_vm = Get-VM -Name $VMName
+    $adapters = Get-NetworkAdapter -VM $selected_vm
+    $adapter = index_picker -array $adapters    
+    if (!$adapter) {
+       Write-Host "Invalid adapter selection. Aborting..." -f Red
+       return $null
+    }
+
+    Write-Host "Switch the adapter to what?"
+    $all_adapters = Get-VirtualNetwork
+    $all_adapter = index_picker -array $all_adapters
+    if (!$all_adapter) {
+        Write-Host "Invalid adapter selection. Aborting..."
+        return $null
+    }
+
+    Get-VM -Name $VMName | Get-NetworkAdapter -Name $adapter.Name | Set-NetworkAdapter -NetworkName $all_adapter 
+
 
 }
 
