@@ -1,0 +1,93 @@
+- name: deploy Active Directory Domain Services
+  hosts: windows
+  gather_facts: yes
+  vars_prompt:
+    - name: "admin_password"
+      prompt: "Enter the local admin password:"
+      private: yes
+  
+  tasks:
+    - name: Set Local Admin Password
+      win_user:
+        name: Administrator
+        password: "{{ admin_password }}"
+        update_password: on_create
+      
+    - name: Set hostname 
+      win_hostname:
+        name: dc-blue1
+      register: hostname_result
+
+    - name: reboot for hostname change
+      win_reboot:
+        reboot_timeout: 300
+      
+    - name: Add ADDS Feature
+      win_feature:
+        name: AD-Domain-Services
+        state: present
+        include_management_tools: yes
+      register: adinstall
+
+    - name: Create new forest and domain
+      win_domain:
+        dns_domain_name: "blue.local"
+        safe_mode_password: "{{ admin_password }}"
+        local_admin_password: "{{ admin_password }}"
+      register: domain_install
+
+    - name: Reboot for forest creation
+      win_reboot:
+        reboot_timeout: 300
+
+    - name: Add DNS server forwarder
+      win_shell: Add-DnsServerForwarder -IPAddress 10.0.5.2
+
+    - name: Install RSAT-AD-Powershell
+      win_feature:
+        name: RSAT-AD-Powershell
+        state: present
+      become_method: runas
+
+    - name: Import Active Directory
+      ansible.windows.win_powershell:
+        script: |
+          Import-Module ActiveDirectory
+      
+    - name: verify AD mod import
+      ansible.windows.win_powershell:
+        script: |
+          Get-Command -Module ActiveDirectory
+
+    # Start the OU implementations
+
+    - name: blue1 OU implementation
+      microsoft.ad.ou:
+        name: blue1
+        path: DC=blue,DC=local
+        state: present 
+    - name: Accounts OU implementation
+      microsoft.ad.ou:
+        name: Accounts
+        path: OU=blue1,DC=blue,DC=local
+        state: present 
+    - name: Groups OU implementation
+      microsoft.ad.ou:
+        name: Groups
+        path: OU=blue1,DC=blue,DC=local
+        state: present 
+    - name: Computers OU implementation
+      microsoft.ad.ou:
+        name: Computers
+        path: OU=blue1,DC=blue,DC=local
+        state: present 
+    - name: Servers OU implementation
+      microsoft.ad.ou:
+        name: Servers
+        path: OU=Computers,OU=blue1,DC=blue,DC=local
+        state: present 
+    - name: Workstations OU implementation
+      microsoft.ad.ou:
+        name: Workstations
+        path: OU=Computers,OU=blue1,DC=blue,DC=local
+        state: present 
