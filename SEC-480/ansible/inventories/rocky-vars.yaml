@@ -1,0 +1,26 @@
+linux:
+  hosts:
+  children:
+    rocky:
+      hosts:
+        10.0.5.76:
+          hostname: rocky1
+          lan_ip: 10.0.5.10
+        10.0.5.77:
+          hostname: rocky2
+          lan_ip: 10.0.5.11
+        10.0.5.75:
+          hostname: rocky3
+          lan_ip: 10.0.5.12
+      vars:
+        device: "{{ ansible_default_ipv4.interface }}"
+    
+    ubuntu:
+      hosts:
+        
+
+  vars:
+    public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZpgC6bKom3oFhpEZELdAk6u2HVV4d10mmEvI3DLzRVBZ0y3puM1r6Nwmaj/2p4cAOn9F+dJv0it26o1FUIT9hmgfvMw8sSrQCHuUDoWs60SNhAhULT8MfvYTwu+TX2zcgd1YmaIHnwzEGtPbiudrqADXg2w2zQxoMqg3adKJoSvOs8qmkTmgdhPdINHCPhGa2xYUvY0CSU4C+Sg/nQg2tr9KRITJn26UY6IOJI4eI1L4WvGpM7MyVoM6vNJDKS6FA6jvawhg6/uVG11Hf+ZtUUEL2BTrQJQQlJERkbBt3xCYiEPgjAhzYBwpuuMqwLMaYDBVsgw6Nvgetfo/2I8OYUDLw5tDbnDbnoHeTjp0dGPNwpBfCQLytzmiGdWtkj3m7fUdc5rlVLbHL71lHMJPgcZ81HHvb22UkNbF8qd3Z4tyVA4IXO1f9CSRFdztRvAtRO1IaNflZQChofbubAyPRWSMCCLQOAcckrF09qzowtXwmSRZAgxPrJDr7uzPQgbc= morin@xubuntu-wan"
+    ansible_user: Morin
+    gateway: 10.0.5.2
+    name_server: 10.0.5.5
