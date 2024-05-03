@@ -59,6 +59,11 @@
         script: |
           Get-Command -Module ActiveDirectory
 
+    # Reboot and wait for AD to settle
+    - name: bounce and settle hold
+      win_reboot:
+        test_command: "Get-ADUser -Identity Administrator -Properties *"
+
     # Start the OU implementations
 
     - name: blue1 OU implementation
