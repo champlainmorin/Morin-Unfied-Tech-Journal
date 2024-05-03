@@ -154,6 +154,24 @@ function Set-Network ([string] $VMName) {
 
 }
 
+function Set-IP ([string] $VMName) {
+
+    $selected_vm = Get-VM -Name $VMName
+
+    $username = Read-Host "Username? "
+    $password = Read-Host -AsSecureString "Password: "
+    
+    #Invoke-VMScript -ScriptText "netsh interface ipv4 show config" -VM $selected_vm -GuestUser $username -GuestPassword $password
+
+    $ip = Read-Host "IP Addr: "
+    $netmask = Read-Host "Netmask (x.x.x.x): "
+    $gateway = Read-Host "Default Gateway: "
+    $dns = Read-Host "DNS Server: "
+
+    Invoke-VMScript -ScriptText "netsh interface ipv4 set address name='Ethernet0' static $ip $netmask $gateway" -VM $selected_vm -GuestUser $username -GuestPassword $password
+    Invoke-VMScript -ScriptText "netsh interface ipv4 set dns name='Ethernet0' static $dns" -VM $selected_vm -GuestUser $username -GuestPassword $password
+
+}
 
 function Write-LinkedClone() {
 
